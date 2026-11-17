@@ -1,5 +1,11 @@
 package ma.youcode.covoiturage.conducteur.dto.response;
 
-public class ConducteurResponse {
-    
+public record ConducteurResponse(
+        Long id,
+        String nom,
+        String prenom,
+        String email,
+        String telephone,
+        String numeroPermis) {
+
 }
