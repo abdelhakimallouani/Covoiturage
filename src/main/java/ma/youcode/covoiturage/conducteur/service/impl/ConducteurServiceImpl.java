@@ -42,7 +42,7 @@ public class ConducteurServiceImpl implements ConducteurService {
 
         Conducteur savedConducteur = conducteurRepository.save(conducteur);
 
-        log.info("Conducteur cree avec l'identifiant", savedConducteur.getId());
+        log.info("Conducteur cree avec id", savedConducteur.getId());
 
         return conducteurMapper.toResponse(savedConducteur);
     }
@@ -58,9 +58,32 @@ public class ConducteurServiceImpl implements ConducteurService {
     @Transactional(readOnly = true)
     public ConducteurResponse getConducteurById(Long id) {
 
-        Conducteur conducteur = conducteurRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(
-                "Conducteur introuvable avec id : " + id));
+        Conducteur conducteur = conducteurRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Conducteur introuvable avec id : " + id));
 
         return conducteurMapper.toResponse(conducteur);
+    }
+
+    @Override
+    public ConducteurResponse updateConducteur(Long id, UpdateConducteurRequest request) {
+
+        Conducteur conducteur = conducteurRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Conducteur introuvable avec id : " + id));
+
+        if (conducteurRepository.existsByEmailAndIdNot(request.email(), id)) {
+            throw new DuplicateResourceException("Cet email est deja utilise par un autre conducteur");
+        }
+
+        if (conducteurRepository.existsByNumeroPermisAndIdNot(request.numeroPermis(), id)) {
+            throw new DuplicateResourceException("Ce numero de permis est deja utilise par un autre conducteur");
+        }
+
+        conducteurMapper.updateEntity(request, conducteur);
+
+        Conducteur updatedConducteur = conducteurRepository.save(conducteur);
+
+        log.info("Conducteur modifie", id);
+
+        return conducteurMapper.toResponse(updatedConducteur);
     }
 }
