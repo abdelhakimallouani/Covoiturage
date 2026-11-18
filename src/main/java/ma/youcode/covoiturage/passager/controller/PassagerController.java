@@ -30,4 +30,10 @@ public class PassagerController {
 
         return passagerService.getAllPassagers();
     }
+
+    @GetMapping("/{id}")
+    public PassagerResponse getPassagerById(@PathVariable Long id) {
+
+        return passagerService.getPassagerById(id);
+    }
 }

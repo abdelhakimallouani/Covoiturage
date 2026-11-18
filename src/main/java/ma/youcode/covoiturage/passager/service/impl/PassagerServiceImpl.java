@@ -57,4 +57,16 @@ public class PassagerServiceImpl implements PassagerService {
         return passagerMapper.toResponseList(passagers);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public PassagerResponse getPassagerById(Long id) {
+
+        log.info("Recherche du passager avec id", id);
+
+        Passager passager = passagerRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Passager introuvable avec id : " + id));
+
+        return passagerMapper.toResponse(passager);
+    }
+
 }
