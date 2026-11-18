@@ -12,7 +12,7 @@ public interface ConducteurService {
 
     List<ConducteurResponse> getAllConducteurs();
 
-    // ConducteurResponse getConducteurById(Long id);
+    ConducteurResponse getConducteurById(Long id);
 
     // ConducteurResponse updateConducteur(
     //         Long id,

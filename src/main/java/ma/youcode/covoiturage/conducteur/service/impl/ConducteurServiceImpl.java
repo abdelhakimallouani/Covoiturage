@@ -3,6 +3,7 @@ package ma.youcode.covoiturage.conducteur.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ma.youcode.covoiturage.common.exception.DuplicateResourceException;
+import ma.youcode.covoiturage.common.exception.ResourceNotFoundException;
 import ma.youcode.covoiturage.conducteur.dto.request.CreateConducteurRequest;
 import ma.youcode.covoiturage.conducteur.dto.request.UpdateConducteurRequest;
 import ma.youcode.covoiturage.conducteur.dto.response.ConducteurResponse;
@@ -51,5 +52,15 @@ public class ConducteurServiceImpl implements ConducteurService {
     public List<ConducteurResponse> getAllConducteurs() {
 
         return conducteurMapper.toResponseList(conducteurRepository.findAll());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public ConducteurResponse getConducteurById(Long id) {
+
+        Conducteur conducteur = conducteurRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(
+                "Conducteur introuvable avec id : " + id));
+
+        return conducteurMapper.toResponse(conducteur);
     }
 }

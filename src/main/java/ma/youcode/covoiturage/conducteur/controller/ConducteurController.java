@@ -21,20 +21,22 @@ public class ConducteurController {
     private final ConducteurService conducteurService;
 
     @PostMapping
-    public ResponseEntity<ConducteurResponse> createConducteur(
-            @Valid @RequestBody CreateConducteurRequest request) {
+    public ResponseEntity<ConducteurResponse> createConducteur(@Valid @RequestBody CreateConducteurRequest request) {
 
         ConducteurResponse response = conducteurService.createConducteur(request);
 
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(response);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping
     public ResponseEntity<List<ConducteurResponse>> getAllConducteurs() {
 
-        return ResponseEntity.ok(
-                conducteurService.getAllConducteurs());
+        return ResponseEntity.ok(conducteurService.getAllConducteurs());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ConducteurResponse> getConducteurById(@PathVariable Long id) {
+
+        return ResponseEntity.ok(conducteurService.getConducteurById(id));
     }
 }
