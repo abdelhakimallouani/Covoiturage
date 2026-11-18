@@ -14,7 +14,5 @@ public interface ConducteurService {
 
     ConducteurResponse getConducteurById(Long id);
 
-    // ConducteurResponse updateConducteur(
-    //         Long id,
-    //         UpdateConducteurRequest request);
+    ConducteurResponse updateConducteur(Long id, UpdateConducteurRequest request);
 }

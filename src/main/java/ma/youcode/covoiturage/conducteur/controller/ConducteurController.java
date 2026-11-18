@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import ma.youcode.covoiturage.conducteur.dto.request.CreateConducteurRequest;
+import ma.youcode.covoiturage.conducteur.dto.request.UpdateConducteurRequest;
 import ma.youcode.covoiturage.conducteur.dto.response.ConducteurResponse;
 import ma.youcode.covoiturage.conducteur.service.ConducteurService;
 
@@ -38,5 +39,12 @@ public class ConducteurController {
     public ResponseEntity<ConducteurResponse> getConducteurById(@PathVariable Long id) {
 
         return ResponseEntity.ok(conducteurService.getConducteurById(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ConducteurResponse> updateConducteur(@PathVariable Long id,
+            @Valid @RequestBody UpdateConducteurRequest request) {
+
+        return ResponseEntity.ok(conducteurService.updateConducteur(id, request));
     }
 }
