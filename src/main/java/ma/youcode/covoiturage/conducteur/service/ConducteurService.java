@@ -10,11 +10,11 @@ public interface ConducteurService {
     ConducteurResponse createConducteur(
             CreateConducteurRequest request);
 
-    List<ConducteurResponse> getAllConducteurs();
+    // List<ConducteurResponse> getAllConducteurs();
 
-    ConducteurResponse getConducteurById(Long id);
+    // ConducteurResponse getConducteurById(Long id);
 
-    ConducteurResponse updateConducteur(
-            Long id,
-            UpdateConducteurRequest request);
+    // ConducteurResponse updateConducteur(
+    //         Long id,
+    //         UpdateConducteurRequest request);
 }
