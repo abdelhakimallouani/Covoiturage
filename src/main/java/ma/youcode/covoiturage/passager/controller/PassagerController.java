@@ -25,5 +25,9 @@ public class PassagerController {
         return passagerService.createPassager(request);
     }
 
-    
+    @GetMapping
+    public List<PassagerResponse> getAllPassagers() {
+
+        return passagerService.getAllPassagers();
+    }
 }
