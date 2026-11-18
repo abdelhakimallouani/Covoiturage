@@ -1,4 +1,4 @@
-package ma.youcode.common.exception;
+package ma.youcode.covoiturage.common.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
 
