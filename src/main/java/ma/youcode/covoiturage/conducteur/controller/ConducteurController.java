@@ -7,6 +7,8 @@ import ma.youcode.covoiturage.conducteur.dto.request.CreateConducteurRequest;
 import ma.youcode.covoiturage.conducteur.dto.response.ConducteurResponse;
 import ma.youcode.covoiturage.conducteur.service.ConducteurService;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,5 +29,12 @@ public class ConducteurController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(response);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ConducteurResponse>> getAllConducteurs() {
+
+        return ResponseEntity.ok(
+                conducteurService.getAllConducteurs());
     }
 }

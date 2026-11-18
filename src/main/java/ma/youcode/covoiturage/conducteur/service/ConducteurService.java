@@ -10,7 +10,7 @@ public interface ConducteurService {
     ConducteurResponse createConducteur(
             CreateConducteurRequest request);
 
-    // List<ConducteurResponse> getAllConducteurs();
+    List<ConducteurResponse> getAllConducteurs();
 
     // ConducteurResponse getConducteurById(Long id);
 

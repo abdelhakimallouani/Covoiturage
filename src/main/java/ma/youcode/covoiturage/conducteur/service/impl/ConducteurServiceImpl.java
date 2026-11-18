@@ -45,4 +45,11 @@ public class ConducteurServiceImpl implements ConducteurService {
 
         return conducteurMapper.toResponse(savedConducteur);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ConducteurResponse> getAllConducteurs() {
+
+        return conducteurMapper.toResponseList(conducteurRepository.findAll());
+    }
 }
