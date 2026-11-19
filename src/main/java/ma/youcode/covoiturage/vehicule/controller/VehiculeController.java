@@ -36,4 +36,11 @@ public class VehiculeController {
 
         return vehiculeService.updateVehicule(id, request);
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteVehicule(@PathVariable Long id) {
+
+        vehiculeService.deleteVehicule(id);
+    }
 }

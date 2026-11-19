@@ -93,4 +93,16 @@ public class VehiculeServiceImpl implements VehiculeService {
 
         return vehiculeMapper.toResponse(updatedVehicule);
     }
+
+    @Override
+    public void deleteVehicule(Long id) {
+
+        log.info("Suppression du vehicule id :", id);
+
+        Vehicule vehicule = findVehiculeById(id);
+
+        vehiculeRepository.delete(vehicule);
+
+        log.info("Vehicule supprime avec id :", id);
+    }
 }
