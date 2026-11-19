@@ -105,4 +105,19 @@ public class VehiculeServiceImpl implements VehiculeService {
 
         log.info("Vehicule supprime avec id :", id);
     }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<VehiculeResponse> getVehiclesByDriverId(Long conducteurId) {
+
+        log.info("Recuperation des vehicules du conducteur id :", conducteurId);
+
+        conducteurRepository.findById(conducteurId)
+                .orElseThrow(() -> new ResourceNotFoundException("Conducteur introuvable avec id :  " + conducteurId));
+
+        List<Vehicule> vehicules = vehiculeRepository.findAllByConducteurId(conducteurId);
+
+        return vehiculeMapper.toResponseList(vehicules);
+    }
 }
