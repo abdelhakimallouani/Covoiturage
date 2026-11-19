@@ -10,7 +10,7 @@ public interface VehiculeService {
 
     VehiculeResponse createVehicule(CreateVehiculeRequest request);
 
-    // VehiculeResponse getVehiculeById(Long id);
+    VehiculeResponse getVehiculeById(Long id);
 
     // VehiculeResponse updateVehicule(Long id, UpdateVehiculeRequest request);
 

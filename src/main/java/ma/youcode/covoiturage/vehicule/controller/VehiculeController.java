@@ -25,4 +25,9 @@ public class VehiculeController {
 
         return vehiculeService.createVehicule(request);
     }
+
+    @GetMapping("/{id}")
+    public VehiculeResponse getVehiculeById(@PathVariable Long id) {
+        return vehiculeService.getVehiculeById(id);
+    }
 }

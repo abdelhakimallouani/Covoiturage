@@ -55,4 +55,21 @@ public class VehiculeServiceImpl implements VehiculeService {
 
         return vehiculeMapper.toResponse(savedVehicule);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public VehiculeResponse getVehiculeById(Long id) {
+
+        log.info("Recherche du vehicule id", id);
+
+        Vehicule vehicule = findVehiculeById(id);
+
+        return vehiculeMapper.toResponse(vehicule);
+    }
+
+    private Vehicule findVehiculeById(Long id) {
+
+        return vehiculeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Vehicule introuvable avec id : " + id));
+    }
 }
