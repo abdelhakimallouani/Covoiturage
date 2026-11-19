@@ -10,11 +10,11 @@ public interface VehiculeService {
 
     VehiculeResponse createVehicule(CreateVehiculeRequest request);
 
-    // VehiculeResponse getVehiculeById(Long id);
+    VehiculeResponse getVehiculeById(Long id);
 
-    // VehiculeResponse updateVehicule(Long id, UpdateVehiculeRequest request);
+    VehiculeResponse updateVehicule(Long id, UpdateVehiculeRequest request);
 
-    // void deleteVehicule(Long id);
+    void deleteVehicule(Long id);
 
-    // List<VehiculeResponse> getVehiclesByDriverId(Long conducteurId);
+    List<VehiculeResponse> getVehiclesByDriverId(Long conducteurId);
 }

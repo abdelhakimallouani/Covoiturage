@@ -25,4 +25,22 @@ public class VehiculeController {
 
         return vehiculeService.createVehicule(request);
     }
+
+    @GetMapping("/{id}")
+    public VehiculeResponse getVehiculeById(@PathVariable Long id) {
+        return vehiculeService.getVehiculeById(id);
+    }
+
+    @PutMapping("/{id}")
+    public VehiculeResponse updateVehicule(@PathVariable Long id, @Valid @RequestBody UpdateVehiculeRequest request) {
+
+        return vehiculeService.updateVehicule(id, request);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteVehicule(@PathVariable Long id) {
+
+        vehiculeService.deleteVehicule(id);
+    }
 }

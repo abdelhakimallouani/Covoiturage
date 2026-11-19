@@ -55,4 +55,69 @@ public class VehiculeServiceImpl implements VehiculeService {
 
         return vehiculeMapper.toResponse(savedVehicule);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public VehiculeResponse getVehiculeById(Long id) {
+
+        log.info("Recherche du vehicule id", id);
+
+        Vehicule vehicule = findVehiculeById(id);
+
+        return vehiculeMapper.toResponse(vehicule);
+    }
+
+    private Vehicule findVehiculeById(Long id) {
+
+        return vehiculeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Vehicule introuvable avec id : " + id));
+    }
+
+    @Override
+    public VehiculeResponse updateVehicule(Long id, UpdateVehiculeRequest request) {
+
+        log.info("Modification du vehicule ID : {}", id);
+
+        Vehicule vehicule = findVehiculeById(id);
+
+        if (vehiculeRepository.existsByImmatriculationAndIdNot(request.immatriculation(), id)) {
+
+            throw new DuplicateResourceException("Cette immatriculation est deja utilisee par un autre vehicule");
+        }
+
+        vehiculeMapper.updateEntity(request, vehicule);
+
+        Vehicule updatedVehicule = vehiculeRepository.save(vehicule);
+
+        log.info("Vehicule modifie avec id", id);
+
+        return vehiculeMapper.toResponse(updatedVehicule);
+    }
+
+    @Override
+    public void deleteVehicule(Long id) {
+
+        log.info("Suppression du vehicule id :", id);
+
+        Vehicule vehicule = findVehiculeById(id);
+
+        vehiculeRepository.delete(vehicule);
+
+        log.info("Vehicule supprime avec id :", id);
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<VehiculeResponse> getVehiclesByDriverId(Long conducteurId) {
+
+        log.info("Recuperation des vehicules du conducteur id :", conducteurId);
+
+        conducteurRepository.findById(conducteurId)
+                .orElseThrow(() -> new ResourceNotFoundException("Conducteur introuvable avec id :  " + conducteurId));
+
+        List<Vehicule> vehicules = vehiculeRepository.findAllByConducteurId(conducteurId);
+
+        return vehiculeMapper.toResponseList(vehicules);
+    }
 }
