@@ -31,10 +31,10 @@ public class Trajet {
     @JoinColumn(name = "vehicule_id", nullable = false)
     private Vehicule vehicule;
 
-    @Column(name = "ville_depart", nullable = false, length = 100)
+    @Column(name = "ville_depart", nullable = false)
     private String villeDepart;
 
-    @Column(name = "ville_arrivee", nullable = false, length = 100)
+    @Column(name = "ville_arrivee", nullable = false)
     private String villeArrivee;
 
     @Column(name = "date_depart", nullable = false)
@@ -44,7 +44,7 @@ public class Trajet {
     private Integer placesProposees;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false)
     private StatutTrajet statut;
 
     @OneToMany(mappedBy = "trajet", cascade = CascadeType.ALL, orphanRemoval = true)
