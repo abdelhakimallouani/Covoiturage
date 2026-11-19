@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ma.youcode.covoiturage.conducteur.entity.Conducteur;
 import ma.youcode.covoiturage.reservation.entity.Reservation;
+import ma.youcode.covoiturage.trajet.enums.StatutTrajet;
 import ma.youcode.covoiturage.vehicule.entity.Vehicule;
 
 import java.time.LocalDateTime;
