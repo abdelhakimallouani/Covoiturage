@@ -30,4 +30,10 @@ public class VehiculeController {
     public VehiculeResponse getVehiculeById(@PathVariable Long id) {
         return vehiculeService.getVehiculeById(id);
     }
+
+    @PutMapping("/{id}")
+    public VehiculeResponse updateVehicule(@PathVariable Long id, @Valid @RequestBody UpdateVehiculeRequest request) {
+
+        return vehiculeService.updateVehicule(id, request);
+    }
 }

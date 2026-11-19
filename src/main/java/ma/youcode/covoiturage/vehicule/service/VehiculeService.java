@@ -12,7 +12,7 @@ public interface VehiculeService {
 
     VehiculeResponse getVehiculeById(Long id);
 
-    // VehiculeResponse updateVehicule(Long id, UpdateVehiculeRequest request);
+    VehiculeResponse updateVehicule(Long id, UpdateVehiculeRequest request);
 
     // void deleteVehicule(Long id);
 

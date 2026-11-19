@@ -72,4 +72,25 @@ public class VehiculeServiceImpl implements VehiculeService {
         return vehiculeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Vehicule introuvable avec id : " + id));
     }
+
+    @Override
+    public VehiculeResponse updateVehicule(Long id, UpdateVehiculeRequest request) {
+
+        log.info("Modification du vehicule ID : {}", id);
+
+        Vehicule vehicule = findVehiculeById(id);
+
+        if (vehiculeRepository.existsByImmatriculationAndIdNot(request.immatriculation(), id)) {
+
+            throw new DuplicateResourceException("Cette immatriculation est deja utilisee par un autre vehicule");
+        }
+
+        vehiculeMapper.updateEntity(request, vehicule);
+
+        Vehicule updatedVehicule = vehiculeRepository.save(vehicule);
+
+        log.info("Vehicule modifie avec id", id);
+
+        return vehiculeMapper.toResponse(updatedVehicule);
+    }
 }
