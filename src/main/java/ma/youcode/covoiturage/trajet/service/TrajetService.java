@@ -15,7 +15,7 @@ public interface TrajetService {
 
     TrajetResponse publierTrajet(CreateTrajetRequest request);
 
-    // TrajetResponse getTrajetById(Long id);
+    TrajetResponse getTrajetById(Long id);
 
     // Page<TrajetSearchResponse> searchTrajets(String villeDepart, String villeArrivee, LocalDate date,
     //         Integer nombrePlaces, BigDecimal prixMax, Pageable pageable);
