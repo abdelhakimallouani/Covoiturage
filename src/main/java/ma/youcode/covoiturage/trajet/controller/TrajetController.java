@@ -28,10 +28,12 @@ public class TrajetController {
     private final TrajetService trajetService;
 
     @PostMapping
-    public ResponseEntity<TrajetResponse> publierTrajet(
-            @Valid @RequestBody CreateTrajetRequest request) {
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(trajetService.publierTrajet(request));
+    public ResponseEntity<TrajetResponse> publierTrajet(@Valid @RequestBody CreateTrajetRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(trajetService.publierTrajet(request));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<TrajetResponse> getTrajetById(@PathVariable Long id) {
+        return ResponseEntity.ok(trajetService.getTrajetById(id));
     }
 }

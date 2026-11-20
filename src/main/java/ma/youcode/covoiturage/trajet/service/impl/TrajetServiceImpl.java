@@ -108,5 +108,45 @@ public class TrajetServiceImpl implements TrajetService {
         if (!dernier.ville().equalsIgnoreCase(request.villeArrivee())) {
             throw new BusinessRuleException("Le dernier point doit correspondre a la ville d'arrivee");
         }
+
+        for (int i = 0; i < points.size(); i++) {
+
+            CreatePointArretRequest current = points.get(i);
+
+            if (current.ordre() != i) {
+                throw new BusinessRuleException("Les ordres des points d'arret doivent etre consecutifs");
+            }
+
+            for (int j = i + 1; j < points.size(); j++) {
+                if (current.ville().equalsIgnoreCase(points.get(j).ville())) {
+                    throw new BusinessRuleException("Une ville ne peut pas apparaitre deux fois dans le trajet");
+                }
+            }
+        }
+    }
+
+    private Trajet findTrajetById(Long id) {
+        return trajetRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Trajet introuvable"));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public TrajetResponse getTrajetById(Long id) {
+
+        Trajet trajet = findTrajetById(id);
+
+        return trajetMapper.toResponse(trajet);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<TrajetResponse> getTrajetsByConducteurId(Long conducteurId) {
+
+        if (!conducteurRepository.existsById(conducteurId)) {
+            throw new ResourceNotFoundException("Conducteur introuvable");
+        }
+
+        return trajetMapper.toResponseList(trajetRepository.findAllByConducteurId(conducteurId));
     }
 }
