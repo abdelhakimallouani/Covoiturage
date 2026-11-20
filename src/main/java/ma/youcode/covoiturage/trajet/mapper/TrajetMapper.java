@@ -30,4 +30,6 @@ public interface TrajetMapper {
     PointArretResponse toPointArretResponse(PointArret point);
 
     List<PointArretResponse> toPointArretResponseList(List<PointArret> points);
+
+    List<TrajetResponse> toResponseList(List<Trajet> trajets);
 }

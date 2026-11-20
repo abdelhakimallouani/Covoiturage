@@ -138,4 +138,15 @@ public class TrajetServiceImpl implements TrajetService {
 
         return trajetMapper.toResponse(trajet);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<TrajetResponse> getTrajetsByConducteurId(Long conducteurId) {
+
+        if (!conducteurRepository.existsById(conducteurId)) {
+            throw new ResourceNotFoundException("Conducteur introuvable");
+        }
+
+        return trajetMapper.toResponseList(trajetRepository.findAllByConducteurId(conducteurId));
+    }
 }

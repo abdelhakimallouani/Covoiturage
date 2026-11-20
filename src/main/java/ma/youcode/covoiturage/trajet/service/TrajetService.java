@@ -20,7 +20,7 @@ public interface TrajetService {
     // Page<TrajetSearchResponse> searchTrajets(String villeDepart, String villeArrivee, LocalDate date,
     //         Integer nombrePlaces, BigDecimal prixMax, Pageable pageable);
 
-    // List<TrajetResponse> getTrajetsByConducteurId(Long conducteurId);
+    List<TrajetResponse> getTrajetsByConducteurId(Long conducteurId);
 
     // void terminerTrajet(Long id);
 
