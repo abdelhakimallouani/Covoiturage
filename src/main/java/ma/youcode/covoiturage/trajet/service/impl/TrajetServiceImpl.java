@@ -2,8 +2,9 @@ package ma.youcode.covoiturage.trajet.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
+import ma.youcode.covoiturage.conducteur.entity.Conducteur;
 import ma.youcode.covoiturage.conducteur.repository.ConducteurRepository;
+import ma.youcode.covoiturage.vehicule.entity.Vehicule;
 import ma.youcode.covoiturage.vehicule.repository.VehiculeRepository;
 import ma.youcode.covoiturage.reservation.entity.Reservation;
 import ma.youcode.covoiturage.reservation.enums.StatutReservation;
@@ -43,6 +44,17 @@ public class TrajetServiceImpl implements TrajetService {
 
     @Override
     public TrajetResponse publierTrajet(CreateTrajetRequest request) {
+
+        Conducteur conducteur = conducteurRepository.findById(request.conducteurId())
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Conducteur introuvable"));
+
+        Vehicule vehicule = vehiculeRepository.findById(request.vehiculeId())
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Vehicule introuvable"));
+
         
+
+
     }
 }

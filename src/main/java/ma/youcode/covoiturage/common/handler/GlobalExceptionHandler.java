@@ -1,6 +1,7 @@
 package ma.youcode.covoiturage.common.handler;
 
 import jakarta.servlet.http.HttpServletRequest;
+import ma.youcode.covoiturage.common.exception.BusinessRuleException;
 import ma.youcode.covoiturage.common.exception.DuplicateResourceException;
 import ma.youcode.covoiturage.common.exception.ResourceNotFoundException;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.net.URI;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
@@ -79,5 +81,11 @@ public class GlobalExceptionHandler {
                                 "Une erreur interne est survenue", request);
 
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(problem);
+        }
+
+        @ExceptionHandler(BusinessRuleException.class)
+        public ResponseEntity<ProblemDetail> handleBusinessRuleException(BusinessRuleException ex,HttpServletRequest request) {
+                ProblemDetail problem = createProblem(HttpStatus.CONFLICT, ex.getMessage(), request);
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(problem);
         }
 }
