@@ -17,8 +17,13 @@ public interface TrajetService {
 
     TrajetResponse getTrajetById(Long id);
 
-    // Page<TrajetSearchResponse> searchTrajets(String villeDepart, String villeArrivee, LocalDate date,
-    //         Integer nombrePlaces, BigDecimal prixMax, Pageable pageable);
+    Page<TrajetSearchResponse> searchTrajets(
+            String villeDepart,
+            String villeArrivee,
+            LocalDate date,
+            Integer nombrePlaces,
+            BigDecimal prixMax,
+            Pageable pageable);
 
     List<TrajetResponse> getTrajetsByConducteurId(Long conducteurId);
 

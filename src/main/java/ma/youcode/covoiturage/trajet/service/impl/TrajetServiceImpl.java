@@ -22,6 +22,7 @@ import ma.youcode.covoiturage.common.exception.*;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -148,5 +149,18 @@ public class TrajetServiceImpl implements TrajetService {
         }
 
         return trajetMapper.toResponseList(trajetRepository.findAllByConducteurId(conducteurId));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<TrajetSearchResponse> searchTrajets(String villeDepart, String villeArrivee, LocalDate date,
+            Integer nombrePlaces, BigDecimal prixMax, Pageable pageable) {
+
+        LocalDateTime dateDebut = date != null ? date.atStartOfDay() : LocalDateTime.now();
+        LocalDateTime dateFin = date != null ? date.plusDays(1).atStartOfDay() : LocalDateTime.now().plusYears(10);
+        BigDecimal prix = prixMax != null ? prixMax : new BigDecimal("1000000");
+
+        return trajetRepository.searchTrajets(villeDepart, villeArrivee, dateDebut, dateFin, nombrePlaces, prix,
+                StatutTrajet.PUBLIE, StatutReservation.CONFIRMEE, pageable);
     }
 }
