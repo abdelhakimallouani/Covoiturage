@@ -181,4 +181,24 @@ public class TrajetServiceImpl implements TrajetService {
 
         log.info("Trajet termine", id);
     }
+
+    @Override
+    public void annulerTrajet(Long id) {
+
+        Trajet trajet = findTrajetById(id);
+
+        if (trajet.getStatut() != StatutTrajet.PUBLIE && trajet.getStatut() != StatutTrajet.COMPLET) {
+            throw new BusinessRuleException("Seul un trajet publie ou complet peut etre annule");
+        }
+
+        List<Reservation> reservations = reservationRepository.findAllByTrajetIdAndStatut(id,StatutReservation.CONFIRMEE);
+
+        reservations.forEach(reservation -> reservation.setStatut(StatutReservation.ANNULEE));
+
+        reservationRepository.saveAll(reservations);
+
+        trajet.setStatut(StatutTrajet.ANNULE);
+
+        log.info("Trajet annule et reservations mises a jour", id);
+    }
 }

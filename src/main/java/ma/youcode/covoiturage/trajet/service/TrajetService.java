@@ -29,5 +29,5 @@ public interface TrajetService {
 
     void terminerTrajet(Long id);
 
-    // void annulerTrajet(Long id);
+    void annulerTrajet(Long id);
 }

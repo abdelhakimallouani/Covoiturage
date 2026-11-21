@@ -64,4 +64,10 @@ public class TrajetController {
         trajetService.terminerTrajet(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/{id}/annuler")
+    public ResponseEntity<Void> annulerTrajet(@PathVariable Long id) {
+        trajetService.annulerTrajet(id);
+        return ResponseEntity.noContent().build();
+    }
 }
