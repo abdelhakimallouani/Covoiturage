@@ -27,7 +27,7 @@ public interface TrajetService {
 
     List<TrajetResponse> getTrajetsByConducteurId(Long conducteurId);
 
-    // void terminerTrajet(Long id);
+    void terminerTrajet(Long id);
 
-    // void annulerTrajet(Long id);
+    void annulerTrajet(Long id);
 }

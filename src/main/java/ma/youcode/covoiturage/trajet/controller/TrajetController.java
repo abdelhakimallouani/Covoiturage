@@ -58,4 +58,16 @@ public class TrajetController {
         return ResponseEntity.ok(
                 trajetService.searchTrajets(villeDepart, villeArrivee, date, nombrePlaces, prixMax, pageable));
     }
+
+    @PatchMapping("/{id}/terminer")
+    public ResponseEntity<Void> terminerTrajet(@PathVariable Long id) {
+        trajetService.terminerTrajet(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/annuler")
+    public ResponseEntity<Void> annulerTrajet(@PathVariable Long id) {
+        trajetService.annulerTrajet(id);
+        return ResponseEntity.noContent().build();
+    }
 }
