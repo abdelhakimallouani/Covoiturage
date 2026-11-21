@@ -5,14 +5,14 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public record TrajetSearchResponse(
-        Long id,
-        String villeDepart,
-        String villeArrivee,
-        LocalDateTime dateDepart,
-        Integer placesProposees,
-        Long placesRestantes,
-        BigDecimal prixSegment,
-        StatutTrajet statut,
-        Long conducteurId,
-        Long vehiculeId) {
+                Long id,
+                String villeDepart,
+                String villeArrivee,
+                LocalDateTime dateDepart,
+                Integer placesProposees,
+                Long placesRestantes,
+                BigDecimal prixSegment,
+                StatutTrajet statut,
+                Long conducteurId,
+                Long vehiculeId) {
 }
