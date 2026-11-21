@@ -163,4 +163,22 @@ public class TrajetServiceImpl implements TrajetService {
         return trajetRepository.searchTrajets(villeDepart, villeArrivee, dateDebut, dateFin, nombrePlaces, prix,
                 StatutTrajet.PUBLIE, StatutReservation.CONFIRMEE, pageable);
     }
+
+    @Override
+    public void terminerTrajet(Long id) {
+
+        Trajet trajet = findTrajetById(id);
+
+        if (trajet.getStatut() != StatutTrajet.PUBLIE && trajet.getStatut() != StatutTrajet.COMPLET) {
+            throw new BusinessRuleException("Seul un trajet publie ou complet peut etre termine");
+        }
+
+        if (trajet.getDateDepart().isAfter(LocalDateTime.now())) {
+            throw new BusinessRuleException("Impossible de terminer un trajet avant son depart");
+        }
+
+        trajet.setStatut(StatutTrajet.TERMINE);
+
+        log.info("Trajet termine", id);
+    }
 }
