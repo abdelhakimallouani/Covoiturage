@@ -337,12 +337,12 @@ Les tests d'intégration des endpoints peuvent être réalisés avec Postman.
 
 ## 📚 11. Documentation de l'API
 
-La documentation interactive est accessible via Swagger UI lorsque Swagger/OpenAPI est configuré.
+La documentation interactive est accessible via Postman est configuré.
 
 URL habituelle :
 
 ```text
-http://localhost:8080/swagger-ui/index.html
+https://abdelhakimallouani-7304220.postman.co/workspace/Abdelhakim-Allouani's-Workspace~bb78607f-f69d-4c6a-83e5-df7fbecefe7a/collection/51595625-047fc83c-922a-40e7-a122-7a21c958adb2?action=share&source=copy-link&creator=51595625
 ```
 
 La documentation permet de consulter les endpoints, leurs paramètres, les formats JSON attendus et les réponses HTTP.
