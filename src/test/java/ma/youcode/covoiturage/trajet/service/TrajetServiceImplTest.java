@@ -185,4 +185,23 @@ class TrajetServiceImplTest {
         verify(trajetRepository, never()).save(any());
     }
 
+    @Test
+    void publierTrajet_shouldThrowException_whenSeatsExceedVehicleCapacity() {
+
+        // Given
+        vehicule.setCapacite(2);
+
+        when(conducteurRepository.findById(1L))
+                .thenReturn(Optional.of(conducteur));
+
+        when(vehiculeRepository.findById(1L))
+                .thenReturn(Optional.of(vehicule));
+
+        // When & Then
+        assertThatThrownBy(() -> trajetService.publierTrajet(request))
+                .isInstanceOf(BusinessRuleException.class);
+
+        verify(trajetRepository, never()).save(any());
+    }
+
 }
