@@ -15,5 +15,5 @@ public interface ReservationService {
 
     List<ReservationResponse> getReservationsByTrajetId(Long trajetId);
 
-    // void cancelReservation(Long id);
+    void cancelReservation(Long id);
 }

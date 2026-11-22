@@ -157,4 +157,45 @@ public class ReservationServiceImpl implements ReservationService {
         return reservationMapper.toResponseList(reservationRepository.findAllByTrajetId(trajetId));
     }
 
+    @Override
+    @Transactional
+    public void cancelReservation(Long id) {
+
+        Reservation reservation = reservationRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Reservation introuvable avec ID : " + id));
+
+        Trajet trajet = trajetRepository.findByIdForUpdate(reservation.getTrajet().getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Trajet introuvable."));
+
+        if (reservation.getStatut() != StatutReservation.CONFIRMEE) {
+            throw new BusinessRuleException("Cette reservation est deja annulee.");
+        }
+
+        if (trajet.getStatut() == StatutTrajet.ANNULE || trajet.getStatut() == StatutTrajet.TERMINE) {
+            throw new BusinessRuleException("Impossible d'annuler une reservation sur un trajet termine ou annule.");
+        }
+
+        LocalDateTime limiteAnnulation = trajet.getDateDepart().minusHours(24);
+
+        if (LocalDateTime.now().isAfter(limiteAnnulation)) {
+            throw new BusinessRuleException("L'annulation doit etre effectuee au moins 24 heures avant le depart.");
+        }
+
+        reservation.setStatut(StatutReservation.ANNULEE);
+        reservationRepository.save(reservation);
+
+        Long placesReservees = reservationRepository.countReservedPlaces(trajet.getId(), StatutReservation.CONFIRMEE);
+
+        int placesRestantes = trajet.getPlacesProposees() - placesReservees.intValue();
+
+        if (trajet.getStatut() == StatutTrajet.COMPLET && placesRestantes > 0) {
+
+            trajet.setStatut(StatutTrajet.PUBLIE);
+            trajetRepository.save(trajet);
+        }
+
+        log.info("Reservation annulee : ID={}, Trajet={}, Places restantes={}", reservation.getId(), trajet.getId(),
+                placesRestantes);
+    }
+
 }
