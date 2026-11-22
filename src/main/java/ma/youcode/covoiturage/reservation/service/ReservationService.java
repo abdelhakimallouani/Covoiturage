@@ -13,7 +13,7 @@ public interface ReservationService {
 
     List<ReservationResponse> getReservationsByPassagerId(Long passagerId);
 
-    // List<ReservationResponse> getReservationsByTrajetId(Long trajetId);
+    List<ReservationResponse> getReservationsByTrajetId(Long trajetId);
 
     // void cancelReservation(Long id);
 }

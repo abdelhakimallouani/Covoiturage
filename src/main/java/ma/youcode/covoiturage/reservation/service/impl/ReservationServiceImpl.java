@@ -146,4 +146,15 @@ public class ReservationServiceImpl implements ReservationService {
         return reservationMapper.toResponseList(reservations);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<ReservationResponse> getReservationsByTrajetId(Long trajetId) {
+
+        if (!trajetRepository.existsById(trajetId)) {
+            throw new ResourceNotFoundException("Trajet introuvable avec ID : " + trajetId);
+        }
+
+        return reservationMapper.toResponseList(reservationRepository.findAllByTrajetId(trajetId));
+    }
+
 }
