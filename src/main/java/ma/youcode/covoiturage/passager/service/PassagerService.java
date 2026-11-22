@@ -13,5 +13,7 @@ public interface PassagerService {
     List<PassagerResponse> getAllPassagers();
 
     PassagerResponse getPassagerById(Long id);
+    
+    PassagerResponse getPassagerByEmail(String email);
 }
 

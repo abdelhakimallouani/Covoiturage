@@ -8,6 +8,7 @@ import ma.youcode.covoiturage.passager.dto.response.PassagerResponse;
 import ma.youcode.covoiturage.passager.service.PassagerService;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,5 +36,10 @@ public class PassagerController {
     public PassagerResponse getPassagerById(@PathVariable Long id) {
 
         return passagerService.getPassagerById(id);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<PassagerResponse> getPassagerByEmail(@RequestParam String email) {
+        return ResponseEntity.ok(passagerService.getPassagerByEmail(email));
     }
 }
