@@ -69,4 +69,14 @@ public class PassagerServiceImpl implements PassagerService {
         return passagerMapper.toResponse(passager);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public PassagerResponse getPassagerByEmail(String email) {
+
+        Passager passager = passagerRepository.findByEmailIgnoreCase(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Aucun passager trouve avec cet email : " + email));
+
+        return passagerMapper.toResponse(passager);
+    }
+
 }
