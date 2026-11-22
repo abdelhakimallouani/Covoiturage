@@ -11,7 +11,7 @@ public interface ReservationService {
 
     ReservationResponse getReservationById(Long id);
 
-    // List<ReservationResponse> getReservationsByPassagerId(Long passagerId);
+    List<ReservationResponse> getReservationsByPassagerId(Long passagerId);
 
     // List<ReservationResponse> getReservationsByTrajetId(Long trajetId);
 

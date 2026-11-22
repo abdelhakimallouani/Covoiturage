@@ -133,4 +133,17 @@ public class ReservationServiceImpl implements ReservationService {
         return reservationMapper.toResponse(reservation);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<ReservationResponse> getReservationsByPassagerId(Long passagerId) {
+
+        if (!passagerRepository.existsById(passagerId)) {
+            throw new ResourceNotFoundException("Passager introuvable avec ID : " + passagerId);
+        }
+
+        List<Reservation> reservations = reservationRepository.findAllByPassagerId(passagerId);
+
+        return reservationMapper.toResponseList(reservations);
+    }
+
 }
