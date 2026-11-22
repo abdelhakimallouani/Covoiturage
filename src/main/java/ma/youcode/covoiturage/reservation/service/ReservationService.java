@@ -9,11 +9,11 @@ public interface ReservationService {
 
     ReservationResponse createReservation(CreateReservationRequest request);
 
-    // ReservationResponse getReservationById(Long id);
+    ReservationResponse getReservationById(Long id);
 
-    // List<ReservationResponse> getReservationsByPassagerId(Long passagerId);
+    List<ReservationResponse> getReservationsByPassagerId(Long passagerId);
 
-    // List<ReservationResponse> getReservationsByTrajetId(Long trajetId);
+    List<ReservationResponse> getReservationsByTrajetId(Long trajetId);
 
-    // void cancelReservation(Long id);
+    void cancelReservation(Long id);
 }

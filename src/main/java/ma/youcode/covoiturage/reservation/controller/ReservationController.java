@@ -24,4 +24,16 @@ public class ReservationController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ReservationResponse> getReservationById(@PathVariable Long id) {
+        return ResponseEntity.ok(reservationService.getReservationById(id));
+    }
+
+    @PatchMapping("/{id}/annuler")
+    public ResponseEntity<Void> cancelReservation(@PathVariable Long id) {
+        reservationService.cancelReservation(id);
+
+        return ResponseEntity.noContent().build();
+    }
 }
