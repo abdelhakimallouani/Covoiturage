@@ -130,4 +130,20 @@ class TrajetServiceImplTest {
 
         verify(trajetRepository).save(any(Trajet.class));
     }
+
+    @Test
+    void publierTrajet_shouldThrowException_whenConducteurNotFound() {
+
+        // Given
+        when(conducteurRepository.findById(1L))
+                .thenReturn(Optional.empty());
+
+        // When & Then
+        assertThatThrownBy(() -> trajetService.publierTrajet(request))
+                .isInstanceOf(ResourceNotFoundException.class);
+
+        verify(trajetRepository, never()).save(any());
+        verify(vehiculeRepository, never()).findById(any());
+    }
+
 }
