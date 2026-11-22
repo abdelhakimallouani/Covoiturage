@@ -122,4 +122,15 @@ public class ReservationServiceImpl implements ReservationService {
 
         return reservationMapper.toResponse(savedReservation);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public ReservationResponse getReservationById(Long id) {
+
+        Reservation reservation = reservationRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Reservation introuvable avec ID : " + id));
+
+        return reservationMapper.toResponse(reservation);
+    }
+
 }

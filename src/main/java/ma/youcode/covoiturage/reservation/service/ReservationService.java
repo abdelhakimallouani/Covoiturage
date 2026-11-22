@@ -9,7 +9,7 @@ public interface ReservationService {
 
     ReservationResponse createReservation(CreateReservationRequest request);
 
-    // ReservationResponse getReservationById(Long id);
+    ReservationResponse getReservationById(Long id);
 
     // List<ReservationResponse> getReservationsByPassagerId(Long passagerId);
 
