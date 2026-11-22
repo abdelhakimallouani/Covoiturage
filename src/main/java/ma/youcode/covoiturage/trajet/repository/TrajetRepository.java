@@ -3,14 +3,17 @@ package ma.youcode.covoiturage.trajet.repository;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.repository.query.Param;
 
+import jakarta.persistence.LockModeType;
 import ma.youcode.covoiturage.reservation.enums.StatutReservation;
 import ma.youcode.covoiturage.trajet.dto.response.TrajetSearchResponse;
 import ma.youcode.covoiturage.trajet.entity.Trajet;
@@ -112,5 +115,9 @@ public interface TrajetRepository extends JpaRepository<Trajet, Long> {
             @Param("nouvelleDateDepart") LocalDateTime nouvelleDateDepart,
             @Param("nouvelleDateArrivee") LocalDateTime nouvelleDateArrivee,
             @Param("statuts") Set<StatutTrajet> statuts);
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("SELECT t FROM Trajet t WHERE t.id = :id")
+    Optional<Trajet> findByIdForUpdate(@Param("id") Long id);
 
 }
