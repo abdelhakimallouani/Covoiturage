@@ -3,10 +3,10 @@ package ma.youcode.covoiturage.trajet.repository;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
@@ -91,5 +91,26 @@ public interface TrajetRepository extends JpaRepository<Trajet, Long> {
             @Param("statutReservation") StatutReservation statutReservation,
 
             Pageable pageable);
+
+    @Query("""
+            SELECT COUNT(t)
+            FROM Trajet t
+            WHERE
+                (t.conducteur.id = :conducteurId
+                 OR t.vehicule.id = :vehiculeId)
+                AND t.statut IN :statuts
+                AND t.dateDepart < :nouvelleDateArrivee
+                AND (
+                    SELECT MAX(p.heurePassage)
+                    FROM PointArret p
+                    WHERE p.trajet = t
+                ) > :nouvelleDateDepart
+            """)
+    long countPlanningConflicts(
+            @Param("conducteurId") Long conducteurId,
+            @Param("vehiculeId") Long vehiculeId,
+            @Param("nouvelleDateDepart") LocalDateTime nouvelleDateDepart,
+            @Param("nouvelleDateArrivee") LocalDateTime nouvelleDateArrivee,
+            @Param("statuts") Set<StatutTrajet> statuts);
 
 }

@@ -30,6 +30,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -63,6 +64,8 @@ public class TrajetServiceImpl implements TrajetService {
             throw new BusinessRuleException("La ville de depart et d'arrivee doivent etre differentes");
         }
         validatePointsArret(request);
+
+        verifierConflitPlanning(conducteur.getId(), vehicule.getId(), request.dateDepart(), request.pointsArret());
 
         Trajet trajet = trajetMapper.toEntity(request);
 
@@ -124,6 +127,29 @@ public class TrajetServiceImpl implements TrajetService {
                 }
             }
         }
+    }
+
+    private void verifierConflitPlanning(Long conducteurId, Long vehiculeId, LocalDateTime dateDepart,
+            List<CreatePointArretRequest> pointsArret) {
+
+        CreatePointArretRequest dernierPoint = pointsArret.get(pointsArret.size() - 1);
+
+        LocalDateTime dateArrivee = dernierPoint.heurePassage();
+
+        if (!dateArrivee.isAfter(dateDepart)) {
+            throw new BusinessRuleException("L'heure d'arrivee doit etre apres l'heure de depart");
+        }
+
+        Set<StatutTrajet> statutsActifs = Set.of(StatutTrajet.PUBLIE, StatutTrajet.COMPLET);
+
+        long nombreConflits = trajetRepository.countPlanningConflicts(conducteurId, vehiculeId, dateDepart, dateArrivee,
+                statutsActifs);
+
+        if (nombreConflits > 0) {
+            throw new BusinessRuleException("Impossible de publier ce trajet : "
+                    + "le conducteur ou le vehicule possede deja " + "un trajet sur cette periode");
+        }
+
     }
 
     private Trajet findTrajetById(Long id) {
@@ -191,7 +217,8 @@ public class TrajetServiceImpl implements TrajetService {
             throw new BusinessRuleException("Seul un trajet publie ou complet peut etre annule");
         }
 
-        List<Reservation> reservations = reservationRepository.findAllByTrajetIdAndStatut(id,StatutReservation.CONFIRMEE);
+        List<Reservation> reservations = reservationRepository.findAllByTrajetIdAndStatut(id,
+                StatutReservation.CONFIRMEE);
 
         reservations.forEach(reservation -> reservation.setStatut(StatutReservation.ANNULEE));
 
