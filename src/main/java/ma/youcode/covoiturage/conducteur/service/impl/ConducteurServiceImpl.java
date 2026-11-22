@@ -2,6 +2,7 @@ package ma.youcode.covoiturage.conducteur.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import ma.youcode.covoiturage.common.exception.BusinessRuleException;
 import ma.youcode.covoiturage.common.exception.DuplicateResourceException;
 import ma.youcode.covoiturage.common.exception.ResourceNotFoundException;
 import ma.youcode.covoiturage.conducteur.dto.request.CreateConducteurRequest;
@@ -85,5 +86,26 @@ public class ConducteurServiceImpl implements ConducteurService {
         log.info("Conducteur modifie", id);
 
         return conducteurMapper.toResponse(updatedConducteur);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ConducteurResponse> searchConducteurs(String nom, String email) {
+
+        if ((nom == null || nom.isBlank()) && (email == null || email.isBlank())) {
+            throw new BusinessRuleException("Veuillez fournir un nom ou un email pour effectuer la recherche.");
+        }
+
+        nom = (nom == null || nom.isBlank()) ? null : nom.trim();
+        email = (email == null || email.isBlank()) ? null : email.trim();
+
+        List<Conducteur> conducteurs = conducteurRepository.searchConducteurs(nom, email);
+
+        if (conducteurs.isEmpty()) {
+            throw new ResourceNotFoundException(
+                    "Aucun conducteur trouve avec les criteres : nom = " + nom + ", email = " + email);
+        }
+
+        return conducteurMapper.toResponseList(conducteurs);
     }
 }

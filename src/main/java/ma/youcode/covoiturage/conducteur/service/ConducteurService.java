@@ -15,4 +15,6 @@ public interface ConducteurService {
     ConducteurResponse getConducteurById(Long id);
 
     ConducteurResponse updateConducteur(Long id, UpdateConducteurRequest request);
+
+    List<ConducteurResponse> searchConducteurs(String nom, String email);
 }

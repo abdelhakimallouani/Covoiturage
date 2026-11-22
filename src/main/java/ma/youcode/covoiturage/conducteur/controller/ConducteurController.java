@@ -47,4 +47,10 @@ public class ConducteurController {
 
         return ResponseEntity.ok(conducteurService.updateConducteur(id, request));
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<ConducteurResponse>> searchConducteurs(@RequestParam(required = false) String nom,
+            @RequestParam(required = false) String email) {
+        return ResponseEntity.ok(conducteurService.searchConducteurs(nom, email));
+    }
 }
